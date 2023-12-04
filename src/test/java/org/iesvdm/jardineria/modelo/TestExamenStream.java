@@ -144,7 +144,11 @@ class TestExamenStream {
             List<Oficina> list = oficinaHome.findAll();
 
             //TODO STREAMS
-            var solList = list.stream();
+            var solList = list.stream()
+                    .filter(ofi -> ofi.getPais().equals("España"))
+                    .sorted(comparing(Oficina::getCiudad).reversed())
+                    .map(ofi -> ofi.getCiudad() + ": " + ofi.getTelefono())
+                    .toList();
 
             solList.forEach(System.out::println);
 
@@ -172,7 +176,10 @@ class TestExamenStream {
             List<Empleado> list = empleadoHome.findAll();
 
             //TODO STREAMS
-            var solList = list.stream();
+            var solList = list.stream()
+                    .filter(e -> e.getJefe() != null && e.getJefe().getCodigoEmpleado() == 7)
+                    .map(empleado -> "Empleado: " + empleado.getNombre() + " " + empleado.getApellido1() + " " + empleado.getApellido2() + " email: " + empleado.getEmail())
+                    .toList();
 
             solList.forEach(System.out::println);
 
@@ -200,7 +207,10 @@ class TestExamenStream {
             List<Cliente> list = clienteHome.findAll();
 
             //TODO STREAMS
-            var solList = list.stream();
+            var solList = list.stream()
+                    .sorted(comparing((Cliente c) -> c.getRepresentanteVentas().getNombre()).reversed().thenComparing(comparing(Cliente::getNombreCliente)))
+                    .map(c -> "Cliente: " + c.getNombreCliente() + " Representante Ventas: " + c.getRepresentanteVentas().getNombre() + " " + c.getRepresentanteVentas().getApellido1())
+                    .toList();
 
             solList.forEach(System.out::println);
 
@@ -264,7 +274,11 @@ class TestExamenStream {
             List<Cliente> list = clienteHome.findAll();
 
             //TODO STREAMS
-            var solList = list.stream();
+            var solList = list.stream()
+                    .filter(c -> !c.getPais().equals("Spain"))
+                    .sorted(comparing(Cliente::getNombreCliente))
+                    .map(c -> "Nombre: " + c.getNombreCliente() + ", País: " + c.getPais())
+                    .toList();
 
             solList.forEach(System.out::println);
 
